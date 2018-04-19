@@ -1,10 +1,10 @@
 
 public class Carta {
-	private char numeracao;
+	private char[] numeracao;
 	private char[] cor;
 	private int valor;
 	
-	public Carta(char n, char[] c, int v) {
+	public Carta(char[] n, char[] c, int v) {
 		//numeracao = new char[2];
 		numeracao = n;
 		
@@ -14,11 +14,11 @@ public class Carta {
 		valor = v;
 	}
 
-	public char getNumeracao() {
+	public char[] getNumeracao() {
 		return numeracao;
 	}
 
-	public void setNumeracao(char numeracao) {
+	public void setNumeracao(char[] numeracao) {
 		this.numeracao = numeracao;
 	}
 
@@ -37,5 +37,18 @@ public class Carta {
 	public void setValor(int valor) {
 		this.valor = valor;
 	}
-	
+
+	@Override
+	public String toString() {
+		String s = "Valor: " + valor + "\n";
+		s = s + "Carta: ";
+		for(int i = 0; i < cor.length; i++) {
+			s = s + cor[i];
+		}
+		s = s + "/";
+		for(int i = 0; i < numeracao.length; i++) {
+			s = s + numeracao[i];
+		}
+		return s;
+	}
 }
