@@ -1,3 +1,5 @@
+import java.util.Collections;
+import java.util.Random;
 import java.util.Stack;
 
 public class Baralho {
@@ -97,7 +99,14 @@ public class Baralho {
 		
 	}
 	
-	public Carta CompraCarta() {
-		return cartas.pop();
+	public Carta compraCarta() {
+		if(!cartas.empty()) {
+			return cartas.pop();
+		}
+		return null;
+	}
+	
+	public void embaralhar(int jogador1, int jogador2) {
+		Collections.shuffle(cartas, new Random(jogador1+jogador2));		
 	}
 }
