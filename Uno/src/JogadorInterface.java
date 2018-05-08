@@ -9,7 +9,7 @@ public interface JogadorInterface extends Remote {
 	
 	public int temPartida(int Id) throws RemoteException;
 	
-	public int obtemOponente(int Id) throws RemoteException;
+	public String obtemOponente(int Id) throws RemoteException;
 	
 	public int ehMinhaVez(int Id) throws RemoteException;
 	

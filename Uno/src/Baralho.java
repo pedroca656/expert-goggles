@@ -109,4 +109,8 @@ public class Baralho {
 	public void embaralhar(int jogador1, int jogador2) {
 		Collections.shuffle(cartas, new Random(jogador1+jogador2));		
 	}
+	
+	public int getNumeroCartas() {
+		return cartas.size();
+	}
 }

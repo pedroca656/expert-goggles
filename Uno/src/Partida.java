@@ -10,12 +10,26 @@ public class Partida {
 	
 	private Jogador J1;	
 	private Jogador J2;
-	
+	private Jogador Vencedor;
+
 	private Baralho Bar;
 	
+	private boolean vezJ1;
+	private boolean empate;
+	private boolean jogadorJaComprou;
+	
+	private Carta cartaComprada;
+
 	public Partida(Jogador p1, Jogador p2) {
 		J1 = p1;
 		J2 = p2;
+		
+		vezJ1 = true;
+		empate = false;
+		jogadorJaComprou = false;
+		
+		Vencedor = null;
+		cartaComprada = null;
 		
 		Bar = new Baralho();
 		Bar.embaralhar(J1.getId(), J2.getId());
@@ -31,6 +45,22 @@ public class Partida {
 		}
 	}
 	
+	public Carta getCartaComprada() {
+		return cartaComprada;
+	}
+
+	public void setCartaComprada(Carta cartaComprada) {
+		this.cartaComprada = cartaComprada;
+	}
+	
+	public boolean isJogadorJaComprou() {
+		return jogadorJaComprou;
+	}
+
+	public void setJogadorJaComprou(boolean jogadorJaComprou) {
+		this.jogadorJaComprou = jogadorJaComprou;
+	}
+
 	private boolean verificaCartaJogavel(Carta c) {
 		//verifica se nao tem +2 em sequencia
 		if(countCompras2 > 0) {
@@ -62,6 +92,94 @@ public class Partida {
 		
 		
 		return false;
+	}
+	
+	public boolean isEmpate() {
+		return empate;
+	}
+
+	public void setEmpate(boolean empate) {
+		this.empate = empate;
+	}
+	
+	public Jogador getVencedor() {
+		return Vencedor;
+	}	
+
+	public void setVencedor(Jogador vencedor) {
+		Vencedor = vencedor;
+	}
+
+	public Stack<Carta> getDescartes() {
+		return descartes;
+	}
+
+	public void setDescartes(Stack<Carta> descartes) {
+		this.descartes = descartes;
+	}
+
+	public int getCountCompras2() {
+		return countCompras2;
+	}
+
+	public void setCountCompras2(int countCompras2) {
+		this.countCompras2 = countCompras2;
+	}
+
+	public int getCountCompras4() {
+		return countCompras4;
+	}
+
+	public void setCountCompras4(int countCompras4) {
+		this.countCompras4 = countCompras4;
+	}
+
+	public char[] getCorAtual() {
+		return corAtual;
+	}
+
+	public void setCorAtual(char[] corAtual) {
+		this.corAtual = corAtual;
+	}
+
+	public char[] getNumeroAtual() {
+		return numeroAtual;
+	}
+
+	public void setNumeroAtual(char[] numeroAtual) {
+		this.numeroAtual = numeroAtual;
+	}
+
+	public Jogador getJ1() {
+		return J1;
+	}
+
+	public void setJ1(Jogador j1) {
+		J1 = j1;
+	}
+
+	public Jogador getJ2() {
+		return J2;
+	}
+
+	public void setJ2(Jogador j2) {
+		J2 = j2;
+	}
+
+	public Baralho getBar() {
+		return Bar;
+	}
+
+	public void setBar(Baralho bar) {
+		Bar = bar;
+	}
+
+	public boolean isVezJ1() {
+		return vezJ1;
+	}
+
+	public void setVezJ1(boolean vezJ1) {
+		this.vezJ1 = vezJ1;
 	}
 	
 	
