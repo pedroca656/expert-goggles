@@ -322,7 +322,9 @@ public class Uno extends UnicastRemoteObject implements JogadorInterface {
 				if(p.isVezJ1()) {
 					if(!p.isJogadorJaComprou()) {
 						Carta aux = p.getBar().compraCarta();
-						p.remontaBaralho();
+						if(aux == null) { 
+							p.finalizarPartida();
+						}
 						if(aux != null) {
 							p.getJ1().Mao.add(aux);
 							p.setJogadorJaComprou(true);
@@ -341,7 +343,9 @@ public class Uno extends UnicastRemoteObject implements JogadorInterface {
 				if(!p.isVezJ1()) {
 					if(!p.isJogadorJaComprou()) {
 						Carta aux = p.getBar().compraCarta();
-						p.remontaBaralho();
+						if(aux == null) {
+							p.finalizarPartida();
+						}
 						if(aux != null) {
 							p.getJ2().Mao.add(aux);
 							p.setJogadorJaComprou(true);
@@ -387,7 +391,7 @@ public class Uno extends UnicastRemoteObject implements JogadorInterface {
 								if(c.getNumeracao()[1] == '4') {
 									for(int i = 0; i < p.getJ1().getMao().size(); i++) {
 										Carta aux = p.getJ1().getMao().get(i);
-										if(aux.getNumeracao()[1] == '+') continue;
+										if(aux.getNumeracao()[1] == '4') continue;
 										if(p.verificaCartaJogavel(aux)) return 0;
 									}
 								}
@@ -440,8 +444,10 @@ public class Uno extends UnicastRemoteObject implements JogadorInterface {
 								p.setVezJ1(!p.isVezJ1());
 							}
 							p.setPrimeiraCartaCoringa(false);
+							if(p.getJ1().getMao().size() == 0) p.finalizarPartida();
 							return 1;
 						}
+						
 					}
 				}
 				else return -4;
@@ -461,7 +467,7 @@ public class Uno extends UnicastRemoteObject implements JogadorInterface {
 								if(c.getNumeracao()[1] == '4') {
 									for(int i = 0; i < p.getJ2().getMao().size(); i++) {
 										Carta aux = p.getJ2().getMao().get(i);
-										if(aux.getNumeracao()[1] == '+') continue;
+										if(aux.getNumeracao()[1] == '4') continue;
 										if(p.verificaCartaJogavel(aux)) return 0;
 									}
 								}
@@ -514,6 +520,7 @@ public class Uno extends UnicastRemoteObject implements JogadorInterface {
 								p.setVezJ1(!p.isVezJ1());
 							}
 							p.setPrimeiraCartaCoringa(false);
+							if(p.getJ1().getMao().size() == 0) p.finalizarPartida();
 							return 1;
 						}
 					}

@@ -146,6 +146,7 @@ public class UnoClient {
 								if(c == 'P') {
 									//pulando, o compra carta pula a jogada caso o jogador já tenha compra
 									jogador.compraCarta(id);
+									System.out.println("\nJogada efetuada com sucesso, aguarde sua vez!");
 									jogando = false;
 								}
 								else if(c == 'D') {
@@ -198,7 +199,8 @@ public class UnoClient {
 						System.out.println("Partida encerrada, TODO!!!");
 					}
 				}
-				
+			
+			scanner.close();
 			}
 		} catch (Exception e) {
 			System.out.println ("UnoClient failed.");

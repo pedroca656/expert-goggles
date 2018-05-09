@@ -8,9 +8,11 @@ public class Partida {
 	private char[] corAtual; //variavel que armazena cor do topo da pilha de descartes
 	private char[] numeroAtual; //variavel que armazena numero no topo da pilha de desc.
 	
-	private Jogador J1;	
+	private Jogador J1;
+	private int pontuacaoJ1;
 	private Jogador J2;
-	private Jogador Vencedor;
+	private int pontuacaoJ2;
+	private Jogador vencedor;
 
 	private Baralho Bar;
 	
@@ -25,11 +27,13 @@ public class Partida {
 		J1 = p1;
 		J2 = p2;
 		
+		pontuacaoJ1 = pontuacaoJ2 = 0;
+		
 		vezJ1 = true;
 		empate = false;
 		jogadorJaComprou = false;
 		
-		Vencedor = null;
+		vencedor = null;
 		cartaComprada = null;
 		primeiraCartaCoringa = false;
 		
@@ -203,11 +207,11 @@ public class Partida {
 	}
 	
 	public Jogador getVencedor() {
-		return Vencedor;
+		return vencedor;
 	}	
 
 	public void setVencedor(Jogador vencedor) {
-		Vencedor = vencedor;
+		vencedor = vencedor;
 	}
 
 	public Stack<Carta> getDescartes() {
@@ -282,5 +286,34 @@ public class Partida {
 		this.vezJ1 = vezJ1;
 	}
 	
-	
+	public void finalizarPartida() {
+		for(int i = 0; i < J1.getMao().size(); i++) {
+			Carta aux = J1.getMao().get(i);
+			if(aux != null) {
+				if(aux.getNumeracao()[0] == 'C') {
+					pontuacaoJ1 += 50;
+				}
+				else if(aux.getNumeracao()[0] == 'P' || aux.getNumeracao()[0] == 'I') {
+					pontuacaoJ1 += 20;
+				}
+				else pontuacaoJ1 += aux.getNumeracao()[0] - '0';
+			}
+		}
+		for(int i = 0; i < J2.getMao().size(); i++) {
+			Carta aux = J2.getMao().get(i);
+			if(aux != null) {
+				if(aux.getNumeracao()[0] == 'C') {
+					pontuacaoJ2 += 50;
+				}
+				else if(aux.getNumeracao()[0] == 'P' || aux.getNumeracao()[0] == 'I') {
+					pontuacaoJ2 += 20;
+				}
+				else pontuacaoJ2 += aux.getNumeracao()[0] - '0';
+			}
+		}
+		
+		if(pontuacaoJ2 == pontuacaoJ1) empate = true;
+		else if(pontuacaoJ1 > pontuacaoJ2) vencedor = J1;
+		else vencedor = J2;
+	}
 }
