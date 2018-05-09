@@ -6,13 +6,17 @@ import java.rmi.server.UnicastRemoteObject;
 
 
 public class Uno extends UnicastRemoteObject implements JogadorInterface {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3090969950757986494L;
 	private Map<Integer, Partida> Dict;
 	private LinkedList<Jogador> JogadoresRegistrados;
 	private Jogador JogadorEmEspera;
 	
 	private int id = 0;
 	
-	private static final long serialVersionUID = -513804057617910473L;
+	//private static final long serialVersionUID = -513804057617910473L;
 	
 	protected Uno() throws RemoteException {
 		super();
