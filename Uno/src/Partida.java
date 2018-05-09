@@ -61,7 +61,7 @@ public class Partida {
 		this.jogadorJaComprou = jogadorJaComprou;
 	}
 
-	private boolean verificaCartaJogavel(Carta c) {
+	public boolean verificaCartaJogavel(Carta c) {
 		//verifica se nao tem +2 em sequencia
 		if(countCompras2 > 0) {
 			if(c.getNumeracao()[0] == '+') {
