@@ -4,7 +4,7 @@ import java.util.Stack;
 
 public class Baralho {
 	private Stack<Carta> cartas;
-	
+
 	public Baralho() {
 		cartas = new Stack<Carta>();
 		
@@ -112,5 +112,14 @@ public class Baralho {
 	
 	public int getNumeroCartas() {
 		return cartas.size();
+	}
+	
+	
+	public Stack<Carta> getCartas() {
+		return cartas;
+	}
+
+	public void setCartas(Stack<Carta> cartas) {
+		this.cartas = cartas;
 	}
 }
