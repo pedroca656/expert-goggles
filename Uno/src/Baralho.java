@@ -107,7 +107,29 @@ public class Baralho {
 	}
 	
 	public void embaralhar(int jogador1, int jogador2) {
-		Collections.shuffle(cartas, new Random(jogador1+jogador2));		
+		//Collections.shuffle(cartas, new Random(jogador1+jogador2));
+		Random gerador = new Random(jogador1+jogador2);
+		int totalCartas = 108;
+		// Embaralhamento
+		for(int c=0;c<totalCartas;++c) { 
+		    int outra = gerador.nextInt(totalCartas); 
+		    //int aux = baralho[c]; virou:
+		    Carta aux = cartas.get(c); 
+		    //cartas[c] = cartas.[outra]; virou:
+		    cartas.set(c, cartas.get(outra)); 
+		    //cartas[outra] = aux; virou:
+		    cartas.set(outra, aux); 
+		} 
+		for(int c=0;c<totalCartas*totalCartas;c++) { 
+		    int c1 = gerador.nextInt(totalCartas); 
+		    int c2 = gerador.nextInt(totalCartas); 
+		    //int aux = baralho[c1]; virou:
+		    Carta aux = cartas.get(c1); 
+		    //baralho[c1] = baralho[c2]; virou:
+		    cartas.set(c1, cartas.get(c2)); 
+		    //baralho[c2] = aux; virou:
+		    cartas.set(c2, aux); 
+		}
 	}
 	
 	public int getNumeroCartas() {

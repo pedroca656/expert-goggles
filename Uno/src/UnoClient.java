@@ -28,16 +28,6 @@ public class UnoClient {
 
 				Scanner scanner = new Scanner(System.in);
 				
-				/*System.out.println("Lista de comandos:");
-				System.out.println("1 - Registro               2 - Encerrar Partida");
-				System.out.println("3 - Existência de Partida  4 - Verificar Oponente");
-				System.out.println("5 - É sua Vez              6 - Número de Cartas do Baralho");
-				System.out.println("7 - No. de Cartas na Mão   8 - No. de Cartas do Oponente");
-				System.out.println("9 - Ver Cartas na Mão      10- Ver Carta Na Mesa");
-				System.out.println("11- Ver Cor Ativa na Mesa  12- Comprar Uma Carta / Cartas de Cartas Especiais");
-				System.out.println("13- Jogar Carta da Mão     14- Obter Seus Pontos ");
-				System.out.println("14- Obter Pontos do Oponente");*/
-				
 				System.out.println("Digite o nome de Usuário");
 				String usuario = scanner.nextLine();
 				id = jogador.registraJogador(usuario);
@@ -57,8 +47,6 @@ public class UnoClient {
 					//System.out.println("Buscando partida...");
 				}
 				
-				System.out.println("ALGO OCORREU!!");
-				
 				aux = jogador.temPartida(id);
 				if(aux == -2) {
 					System.out.println("Tempo de espera esgotado!");
@@ -69,11 +57,11 @@ public class UnoClient {
 					break;
 				}
 				else if(aux == 1) {
-					System.out.println("Partida encontrada!\n Você começa jogando...");
+					System.out.println("Partida encontrada!\nVocê começa jogando...");
 					temPartida = true;
 				}
 				else if(aux == 2) {
-					System.out.println("Partida encontrada!\n Adversário começa jogando...");
+					System.out.println("Partida encontrada!\nAdversário começa jogando...");
 					temPartida = true;
 				}
 				else {
@@ -83,7 +71,9 @@ public class UnoClient {
 				
 				System.out.println("Você está jogando contra " + jogador.obtemOponente(id));
 				
+				//enquanto a partida existir, fica dentro desse loop
 				while(temPartida) {
+					//vai verificando se é a vez do jogador
 					aux = jogador.ehMinhaVez(id);
 					
 					if(aux == -2) continue;
@@ -115,19 +105,38 @@ public class UnoClient {
 						System.out.println("\nSua mão:");
 						System.out.println(jogador.mostraMao(id));
 						
+						//variavel auxiliar para verificar se o jogador já terminou a jogada
 						boolean jogando = true;
 						
+						//mantem dentro do loop enquanto o jogador não terminar a jogada
+						//a jogada termina com o descarte de uma carta ou ao pular a sua vez
 						while(jogando) {
 							System.out.println("\nDigite a posição da carta que deseja jogar ou C para comprar uma carta.");
-							char c = scanner.next().charAt(0);
+							//le a entrada
+							String s = scanner.nextLine();
+							int posCarta = -1; //variavel auxiliar
+							char c = 'x'; //variavel auxiliar
+							if(isInteger(s)) {
+								//se a entrada s pode ser convertido pra integer, converte
+								posCarta = Integer.parseInt(s);
+							}
+							else {
+								if(!s.isEmpty()) c = s.charAt(0); //se não, coloca em c o primeiro caracter da string
+							}
+							System.out.println(posCarta);
 							System.out.println(c);
 							//caso o jogador use algum caracter que não esteja especificado, repete até ele inserir algo especificado
 							while(true) {
 								if(c == 'C') break;
-								if(c-'0' >= 1 && c-'0' <= jogador.obtemNumCartas(id)) break;
+								if(posCarta >= 1 && posCarta <= jogador.obtemNumCartas(id)) break;
 								System.out.println("Entrada incorreta!");
 								System.out.println("\nDigite a posição da carta que deseja jogar ou C para comprar uma carta.");
-								c = scanner.next().charAt(0);
+								s = scanner.nextLine();
+								if(isInteger(s)) {
+									//se a entrada s pode ser convertido pra integer, converte
+									posCarta = Integer.parseInt(s);
+								}
+								else c = s.charAt(0); //se não, coloca em c o primeiro caracter da string
 							}
 						
 							if(c == 'C') {
@@ -144,9 +153,10 @@ public class UnoClient {
 									c = scanner.next().charAt(0);
 								}
 								if(c == 'P') {
-									//pulando, o compra carta pula a jogada caso o jogador já tenha compra
+									//pulando, o compra carta pula a jogada caso o jogador já tenha comprado
 									jogador.compraCarta(id);
 									System.out.println("\nJogada efetuada com sucesso, aguarde sua vez!");
+									//jogada terminou
 									jogando = false;
 								}
 								else if(c == 'D') {
@@ -157,6 +167,7 @@ public class UnoClient {
 									int ok = jogador.jogaCarta(id, jogador.obtemNumCartas(id)-1, cor);
 									if(ok == 1) {
 										System.out.println("\nJogada efetuada com sucesso, aguarde sua vez!");
+										//jogada terminou.
 										jogando = false;
 									}
 									if(ok == 0) {
@@ -171,14 +182,15 @@ public class UnoClient {
 									}
 								}
 							}
-							else if(c-'0' >= 1 && c-'0' <= jogador.obtemNumCartas(id) ) {
+							else if(posCarta >= 1 && posCarta <= jogador.obtemNumCartas(id) ) {
 								System.out.println("Se a carta for um coringa, digite a cor que deseja:");
 								System.out.println("0 - Azul;   1 - Amarelo;   2 - Verde;   3 - Vermelho;");
 								System.out.println("Se não for, digite 4");
 								char cor = scanner.next().charAt(0);
-								int ok = jogador.jogaCarta(id, c-'0'-1, cor-'0');
+								int ok = jogador.jogaCarta(id, posCarta-1, cor-'0');
 								if(ok == 1) {
 									System.out.println("\nJogada efetuada com sucesso, aguarde sua vez!");
+									//jogada terminou.
 									jogando = false;
 								}
 								if(ok == 0) {
@@ -195,8 +207,18 @@ public class UnoClient {
 					}
 					else if(aux == 0 ) continue;
 					else {
-						//partida acabou, fazer tratamento
-						System.out.println("Partida encerrada, TODO!!!");
+						//partida acabou
+						System.out.println("A partida acabou!");
+						if(aux == 2) System.out.println("Parabéns, você é o vencedor!");
+						else if(aux == 3) System.out.println("O adversário venceu essa partida...");
+						else if(aux == 4) System.out.println("Ocorreu um empate!");
+						else if(aux == 5) System.out.println("Você venceu por WO!");
+						else if(aux == 6) System.out.println("O adversário venceu por WO...");
+						if(aux == 2 || aux == 3 || aux == 4) {
+							System.out.println("Sua pontuação foi: " + jogador.obtemPontos(id));
+							System.out.println("Seu oponente pontuou: " + jogador.obtemPontosOponente(id));
+						}
+						temPartida = false;
 					}
 				}
 			
@@ -206,5 +228,29 @@ public class UnoClient {
 			System.out.println ("UnoClient failed.");
 			e.printStackTrace();
 		}		
+	}
+	
+	public static boolean isInteger(String str) {
+	    if (str == null) {
+	        return false;
+	    }
+	    int length = str.length();
+	    if (length == 0) {
+	        return false;
+	    }
+	    int i = 0;
+	    if (str.charAt(0) == '-') {
+	        if (length == 1) {
+	            return false;
+	        }
+	        i = 1;
+	    }
+	    for (; i < length; i++) {
+	        char c = str.charAt(i);
+	        if (c < '0' || c > '9') {
+	            return false;
+	        }
+	    }
+	    return true;
 	}
 }

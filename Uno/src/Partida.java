@@ -8,6 +8,22 @@ public class Partida {
 	private char[] corAtual; //variavel que armazena cor do topo da pilha de descartes
 	private char[] numeroAtual; //variavel que armazena numero no topo da pilha de desc.
 	
+	public int getPontuacaoJ1() {
+		return pontuacaoJ1;
+	}
+
+	public void setPontuacaoJ1(int pontuacaoJ1) {
+		this.pontuacaoJ1 = pontuacaoJ1;
+	}
+
+	public int getPontuacaoJ2() {
+		return pontuacaoJ2;
+	}
+
+	public void setPontuacaoJ2(int pontuacaoJ2) {
+		this.pontuacaoJ2 = pontuacaoJ2;
+	}
+
 	private Jogador J1;
 	private int pontuacaoJ1;
 	private Jogador J2;
@@ -89,7 +105,7 @@ public class Partida {
 				J1.getMao().add(Bar.compraCarta());
 			}
 			else {
-				remontaBaralho();
+				finalizarPartida();
 				J1.getMao().add(Bar.compraCarta());
 			}
 		}
@@ -101,7 +117,7 @@ public class Partida {
 				J2.getMao().add(Bar.compraCarta());
 			}
 			else {
-				remontaBaralho();
+				finalizarPartida();;
 				J2.getMao().add(Bar.compraCarta());
 			}
 		}
@@ -113,7 +129,7 @@ public class Partida {
 				J1.getMao().add(Bar.compraCarta());
 			}
 			else {
-				remontaBaralho();
+				finalizarPartida();
 				J1.getMao().add(Bar.compraCarta());
 			}
 		}
@@ -125,7 +141,7 @@ public class Partida {
 				J2.getMao().add(Bar.compraCarta());
 			}
 			else {
-				remontaBaralho();
+				finalizarPartida();
 				J2.getMao().add(Bar.compraCarta());
 			}
 		}
@@ -211,7 +227,7 @@ public class Partida {
 	}	
 
 	public void setVencedor(Jogador vencedor) {
-		vencedor = vencedor;
+		this.vencedor = vencedor;
 	}
 
 	public Stack<Carta> getDescartes() {
@@ -291,24 +307,24 @@ public class Partida {
 			Carta aux = J1.getMao().get(i);
 			if(aux != null) {
 				if(aux.getNumeracao()[0] == 'C') {
-					pontuacaoJ1 += 50;
-				}
-				else if(aux.getNumeracao()[0] == 'P' || aux.getNumeracao()[0] == 'I') {
-					pontuacaoJ1 += 20;
-				}
-				else pontuacaoJ1 += aux.getNumeracao()[0] - '0';
-			}
-		}
-		for(int i = 0; i < J2.getMao().size(); i++) {
-			Carta aux = J2.getMao().get(i);
-			if(aux != null) {
-				if(aux.getNumeracao()[0] == 'C') {
 					pontuacaoJ2 += 50;
 				}
 				else if(aux.getNumeracao()[0] == 'P' || aux.getNumeracao()[0] == 'I') {
 					pontuacaoJ2 += 20;
 				}
 				else pontuacaoJ2 += aux.getNumeracao()[0] - '0';
+			}
+		}
+		for(int i = 0; i < J2.getMao().size(); i++) {
+			Carta aux = J2.getMao().get(i);
+			if(aux != null) {
+				if(aux.getNumeracao()[0] == 'C') {
+					pontuacaoJ1 += 50;
+				}
+				else if(aux.getNumeracao()[0] == 'P' || aux.getNumeracao()[0] == 'I') {
+					pontuacaoJ1 += 20;
+				}
+				else pontuacaoJ1 += aux.getNumeracao()[0] - '0';
 			}
 		}
 		
