@@ -5,10 +5,8 @@ public class Carta {
 	private int valor;
 	
 	public Carta(char[] n, char[] c, int v) {
-		//numeracao = new char[2];
 		numeracao = n;
 		
-		//cor = new char[2];
 		cor = c;
 		
 		valor = v;

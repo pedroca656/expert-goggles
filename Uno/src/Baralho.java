@@ -1,4 +1,3 @@
-import java.util.Collections;
 import java.util.Random;
 import java.util.Stack;
 
@@ -16,23 +15,15 @@ public class Baralho {
 			//verifica qual a cor das cartas de acordo com o i
 			if(i == 0) {
 				cor = new char[] {'A', 'z'};
-				//cor[0] = 'A';
-				//cor[1] = 'z';
 			}
 			else if(i == 1) {
 				cor = new char[] {'A', 'm'};
-				//cor[0] = 'A';
-				//cor[1] = 'm';
 			}
 			else if(i == 2) {
 				cor = new char[] {'V', 'd'};
-				//cor[0] = 'V';
-				//cor[1] = 'd';
 			}
 			else if(i == 3) {
 				cor = new char[] {'V', 'm'};
-				//cor[0] = 'V';
-				//cor[1] = 'm';
 			}
 			
 			//cria o 0 daquela cor
@@ -107,7 +98,6 @@ public class Baralho {
 	}
 	
 	public void embaralhar(int jogador1, int jogador2) {
-		//Collections.shuffle(cartas, new Random(jogador1+jogador2));
 		Random gerador = new Random(jogador1+jogador2);
 		int totalCartas = 108;
 		// Embaralhamento

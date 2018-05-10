@@ -1,15 +1,6 @@
 import java.io.BufferedReader;
-import java.io.Console;
 import java.io.InputStreamReader;
 import java.rmi.Naming;
-import java.util.Scanner;
-
-import com.sun.org.apache.xalan.internal.xsltc.compiler.Pattern;
-//import com.sun.org.apache.xalan.internal.xsltc.compiler.SymbolTable;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.ClassGenerator;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.MethodGenerator;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.TypeCheckError;
 
 public class UnoClient {
 	public static void main (String[] args) {
@@ -20,25 +11,14 @@ public class UnoClient {
 		}
 		try {
 			JogadorInterface jogador = (JogadorInterface) Naming.lookup ("//"+args[0]+"/Uno");
-			//JogadorInterface jogador = (JogadorInterface) Naming.lookup ("//localhost/Uno");
-			/*n = jogador.registraJogador(args[1]);
-			System.out.println ("Nome de Usuário: "+args[1]);
-			if	(n == -1)
-				System.out.println ("Erro: Usuário já cadastrado.\n");
-			else if (n == -2)
-				System.out.println ("Erro: Número máximo de jogadores já alcançado.");
-			else
-				System.out.println("Jogador " + args[1] + " cadastrado!");*/
 			while(true) {
 				int aux = 0;
 				int id = -1;
 				boolean temPartida = false;
-
-				//Scanner scanner = new Scanner(System.in);
+				
 				BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
 				
-				System.out.println("Digite o nome de Usuário");
-				//String usuario = scanner.nextLine();
+				System.out.println("Digite o nome de Usuário");				
 				String usuario = scanner.readLine();
 				id = jogador.registraJogador(usuario);
 				if(id == -1) {
@@ -54,7 +34,7 @@ public class UnoClient {
 				System.out.println("Buscando partida...");
 				
 				while(jogador.temPartida(id) == 0) {
-					//System.out.println("Buscando partida...");
+					
 				}
 				
 				aux = jogador.temPartida(id);
@@ -123,7 +103,7 @@ public class UnoClient {
 						while(jogando) {
 							System.out.println("\nDigite a posição da carta que deseja jogar ou C para comprar uma carta.");
 							//le a entrada
-							//String s = scanner.nextLine();
+
 							String s = scanner.readLine();
 							int posCarta = -1; //variavel auxiliar
 							char c = 'x'; //variavel auxiliar
@@ -142,7 +122,7 @@ public class UnoClient {
 								if(posCarta >= 1 && posCarta <= jogador.obtemNumCartas(id)) break;
 								System.out.println("Entrada incorreta!");
 								System.out.println("\nDigite a posição da carta que deseja jogar ou C para comprar uma carta.");
-								//s = scanner.nextLine();
+								
 								s = scanner.readLine();
 								if(isInteger(s)) {
 									//se a entrada s pode ser convertido pra integer, converte
@@ -156,14 +136,12 @@ public class UnoClient {
 								System.out.println("\nSua mão atual:");
 								System.out.println(jogador.mostraMao(id));							
 								System.out.println("\nDigite D para descartar a nova carta ou P para pular sua vez.");
-								//c = scanner.next().charAt(0);
 								c = scanner.readLine().charAt(0);
 								while(true) {
 									if(c == 'P') break;
 									if(c == 'D') break;
 									System.out.println("Entrada incorreta!");
 									System.out.println("\nDigite D para descartar a nova carta ou P para pular sua vez.");
-									//c = scanner.next().charAt(0);
 									c = scanner.readLine().charAt(0);
 								}
 								if(c == 'P') {
@@ -177,7 +155,6 @@ public class UnoClient {
 									System.out.println("Se a carta for um coringa, digite a cor que deseja:");
 									System.out.println("0 - Azul;   1 - Amarelo;   2 - Verde;   3 - Vermelho;");
 									System.out.println("Se não for, digite 4");
-									//char cor = scanner.next().charAt(0);
 									char cor = scanner.readLine().charAt(0);
 									int ok = jogador.jogaCarta(id, jogador.obtemNumCartas(id)-1, cor);
 									if(ok == 1) {
@@ -201,7 +178,6 @@ public class UnoClient {
 								System.out.println("Se a carta for um coringa, digite a cor que deseja:");
 								System.out.println("0 - Azul;   1 - Amarelo;   2 - Verde;   3 - Vermelho;");
 								System.out.println("Se não for, digite 4");
-								//char cor = scanner.next().charAt(0);
 								char cor = scanner.readLine().charAt(0);
 								int ok = jogador.jogaCarta(id, posCarta-1, cor-'0');
 								if(ok == 1) {

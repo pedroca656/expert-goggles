@@ -56,8 +56,6 @@ public class Partida {
 		Bar = new Baralho();
 		Bar.embaralhar(J1.getId(), J2.getId());
 		descartes = new Stack<Carta>();
-		//countCompras2 = 0;
-		//countCompras4 = 0;
 		corAtual = new char[2];
 		numeroAtual = new char[2];
 		
@@ -170,27 +168,6 @@ public class Partida {
 	}
 
 	public boolean verificaCartaJogavel(Carta c) {
-		//verifica se nao tem +2 em sequencia
-		/*if(countCompras2 > 0) {
-			if(c.getNumeracao()[0] == '+') {
-				countCompras2++;
-				return true;
-			}
-			else {
-				return false;
-			}
-		}*/
-		//verifica se nao tem +4 em sequencia
-		/*if(countCompras4 > 0) {
-			if(c.getNumeracao()[1] == '4') {
-				countCompras4++;
-				return true;
-			}
-			else {
-				return false;
-			}
-		}*/
-		
 		if(primeiraCartaCoringa) return true;
 		
 		//verifica se a carta eh da mesma cor

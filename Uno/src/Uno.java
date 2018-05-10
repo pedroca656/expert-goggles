@@ -33,7 +33,7 @@ public class Uno extends UnicastRemoteObject implements JogadorInterface {
 		if(JogadoresRegistrados.size() >= 1000) return -2; //maximo de jog. alcancados
 		
 		boolean existe = false;
-		//percore a lista verificando se ja existe jogador registrado com esse usuario
+		//percorre a lista verificando se ja existe jogador registrado com esse usuario
 		if(JogadoresRegistrados.size() > 0) {
 			for(int i = 0; i < JogadoresRegistrados.size(); i++) {
 				if(JogadoresRegistrados.get(i).getUsuario().equals(Nome)) {
