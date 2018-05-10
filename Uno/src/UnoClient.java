@@ -1,18 +1,26 @@
+import java.io.BufferedReader;
 import java.io.Console;
+import java.io.InputStreamReader;
 import java.rmi.Naming;
 import java.util.Scanner;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Pattern;
+//import com.sun.org.apache.xalan.internal.xsltc.compiler.SymbolTable;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.ClassGenerator;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.MethodGenerator;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.TypeCheckError;
+
 public class UnoClient {
 	public static void main (String[] args) {
-		int n;
 
-		/*if	(args.length != 2)  {
-			System.out.println("Uso: java NotasClient <maquina> <nome>");
+		if	(args.length != 1)  {
+			System.out.println("Uso: java NotasClient <maquina>");
 			System.exit(1);
-		}*/
+		}
 		try {
-			//JogadorInterface jogador = (JogadorInterface) Naming.lookup ("//"+args[0]+"/Uno");
-			JogadorInterface jogador = (JogadorInterface) Naming.lookup ("//localhost/Uno");
+			JogadorInterface jogador = (JogadorInterface) Naming.lookup ("//"+args[0]+"/Uno");
+			//JogadorInterface jogador = (JogadorInterface) Naming.lookup ("//localhost/Uno");
 			/*n = jogador.registraJogador(args[1]);
 			System.out.println ("Nome de Usuário: "+args[1]);
 			if	(n == -1)
@@ -26,10 +34,12 @@ public class UnoClient {
 				int id = -1;
 				boolean temPartida = false;
 
-				Scanner scanner = new Scanner(System.in);
+				//Scanner scanner = new Scanner(System.in);
+				BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
 				
 				System.out.println("Digite o nome de Usuário");
-				String usuario = scanner.nextLine();
+				//String usuario = scanner.nextLine();
+				String usuario = scanner.readLine();
 				id = jogador.registraJogador(usuario);
 				if(id == -1) {
 					System.out.println("\nUsuário já cadastrado!");
@@ -113,7 +123,8 @@ public class UnoClient {
 						while(jogando) {
 							System.out.println("\nDigite a posição da carta que deseja jogar ou C para comprar uma carta.");
 							//le a entrada
-							String s = scanner.nextLine();
+							//String s = scanner.nextLine();
+							String s = scanner.readLine();
 							int posCarta = -1; //variavel auxiliar
 							char c = 'x'; //variavel auxiliar
 							if(isInteger(s)) {
@@ -131,7 +142,8 @@ public class UnoClient {
 								if(posCarta >= 1 && posCarta <= jogador.obtemNumCartas(id)) break;
 								System.out.println("Entrada incorreta!");
 								System.out.println("\nDigite a posição da carta que deseja jogar ou C para comprar uma carta.");
-								s = scanner.nextLine();
+								//s = scanner.nextLine();
+								s = scanner.readLine();
 								if(isInteger(s)) {
 									//se a entrada s pode ser convertido pra integer, converte
 									posCarta = Integer.parseInt(s);
@@ -144,13 +156,15 @@ public class UnoClient {
 								System.out.println("\nSua mão atual:");
 								System.out.println(jogador.mostraMao(id));							
 								System.out.println("\nDigite D para descartar a nova carta ou P para pular sua vez.");
-								c = scanner.next().charAt(0);
+								//c = scanner.next().charAt(0);
+								c = scanner.readLine().charAt(0);
 								while(true) {
 									if(c == 'P') break;
 									if(c == 'D') break;
 									System.out.println("Entrada incorreta!");
 									System.out.println("\nDigite D para descartar a nova carta ou P para pular sua vez.");
-									c = scanner.next().charAt(0);
+									//c = scanner.next().charAt(0);
+									c = scanner.readLine().charAt(0);
 								}
 								if(c == 'P') {
 									//pulando, o compra carta pula a jogada caso o jogador já tenha comprado
@@ -163,7 +177,8 @@ public class UnoClient {
 									System.out.println("Se a carta for um coringa, digite a cor que deseja:");
 									System.out.println("0 - Azul;   1 - Amarelo;   2 - Verde;   3 - Vermelho;");
 									System.out.println("Se não for, digite 4");
-									char cor = scanner.next().charAt(0);
+									//char cor = scanner.next().charAt(0);
+									char cor = scanner.readLine().charAt(0);
 									int ok = jogador.jogaCarta(id, jogador.obtemNumCartas(id)-1, cor);
 									if(ok == 1) {
 										System.out.println("\nJogada efetuada com sucesso, aguarde sua vez!");
@@ -186,7 +201,8 @@ public class UnoClient {
 								System.out.println("Se a carta for um coringa, digite a cor que deseja:");
 								System.out.println("0 - Azul;   1 - Amarelo;   2 - Verde;   3 - Vermelho;");
 								System.out.println("Se não for, digite 4");
-								char cor = scanner.next().charAt(0);
+								//char cor = scanner.next().charAt(0);
+								char cor = scanner.readLine().charAt(0);
 								int ok = jogador.jogaCarta(id, posCarta-1, cor-'0');
 								if(ok == 1) {
 									System.out.println("\nJogada efetuada com sucesso, aguarde sua vez!");
