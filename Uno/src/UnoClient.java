@@ -72,28 +72,7 @@ public class UnoClient {
 					}
 					else if(aux == 1) { //VEZ DO JOGADOR!!
 						System.out.println("É sua vez!\n");
-						System.out.println("Número de cartas no baralho: " + jogador.obtemNumCartasBaralho(id));
-						System.out.println("Número de cartas na mão do oponente: " + jogador.obtemNumCartasOponente(id));
-						System.out.println("\nCarta na mesa: " + jogador.obtemCartaMesa(id));
-						switch(jogador.obtemCorAtiva(id)) {
-							case 0:
-								System.out.println("Cor ativa na mesa: Azul");
-								break;
-								 
-							case 1:
-								System.out.println("Cor ativa na mesa: Amarelo");
-								break;
-								
-							case 2:
-								System.out.println("Cor ativa na mesa: Verde");
-								break;
-								
-							case 3:
-								System.out.println("Cor ativa na mesa: Vermelho");
-								break;
-						}
-						System.out.println("\nSua mão:");
-						System.out.println(jogador.mostraMao(id));
+						printaMesa(jogador.obtemNumCartasBaralho(id), jogador.obtemNumCartasOponente(id), jogador.obtemCartaMesa(id), jogador.obtemCorAtiva(id), jogador.mostraMao(id));
 						
 						//variavel auxiliar para verificar se o jogador já terminou a jogada
 						boolean jogando = true;
@@ -114,13 +93,14 @@ public class UnoClient {
 							else {
 								if(!s.isEmpty()) c = s.charAt(0); //se não, coloca em c o primeiro caracter da string
 							}
-							System.out.println(posCarta);
-							System.out.println(c);
+							//System.out.println(posCarta);
+							//System.out.println(c);
 							//caso o jogador use algum caracter que não esteja especificado, repete até ele inserir algo especificado
 							while(true) {
 								if(c == 'C') break;
 								if(posCarta >= 1 && posCarta <= jogador.obtemNumCartas(id)) break;
 								System.out.println("Entrada incorreta!");
+								printaMesa(jogador.obtemNumCartasBaralho(id), jogador.obtemNumCartasOponente(id), jogador.obtemCartaMesa(id), jogador.obtemCorAtiva(id), jogador.mostraMao(id));
 								System.out.println("\nDigite a posição da carta que deseja jogar ou C para comprar uma carta.");
 								
 								s = scanner.readLine();
@@ -128,21 +108,29 @@ public class UnoClient {
 									//se a entrada s pode ser convertido pra integer, converte
 									posCarta = Integer.parseInt(s);
 								}
-								else c = s.charAt(0); //se não, coloca em c o primeiro caracter da string
+								else {
+									if(!s.isEmpty()) c = s.charAt(0);
+								} //se não, coloca em c o primeiro caracter da string
 							}
 						
 							if(c == 'C') {
 								jogador.compraCarta(id);
-								System.out.println("\nSua mão atual:");
-								System.out.println(jogador.mostraMao(id));							
+								printaMesa(jogador.obtemNumCartasBaralho(id), jogador.obtemNumCartasOponente(id), jogador.obtemCartaMesa(id), jogador.obtemCorAtiva(id), jogador.mostraMao(id));
+															
 								System.out.println("\nDigite D para descartar a nova carta ou P para pular sua vez.");
-								c = scanner.readLine().charAt(0);
+								s = scanner.readLine();
+								if(!s.isEmpty()){
+									c = s.charAt(0);
+								}
 								while(true) {
 									if(c == 'P') break;
 									if(c == 'D') break;
 									System.out.println("Entrada incorreta!");
 									System.out.println("\nDigite D para descartar a nova carta ou P para pular sua vez.");
-									c = scanner.readLine().charAt(0);
+									s = scanner.readLine();
+									if(!s.isEmpty()){
+										c = s.charAt(0);
+									}
 								}
 								if(c == 'P') {
 									//pulando, o compra carta pula a jogada caso o jogador já tenha comprado
@@ -154,8 +142,12 @@ public class UnoClient {
 								else if(c == 'D') {
 									System.out.println("Se a carta for um coringa, digite a cor que deseja:");
 									System.out.println("0 - Azul;   1 - Amarelo;   2 - Verde;   3 - Vermelho;");
-									System.out.println("Se não for, digite 4");
-									char cor = scanner.readLine().charAt(0);
+									System.out.println("Se não for, digite qualquer coisa.");
+									char cor = 'x';
+									s = scanner.readLine();
+									if(!s.isEmpty()){
+										cor = s.charAt(0);
+									}
 									int ok = jogador.jogaCarta(id, jogador.obtemNumCartas(id)-1, cor);
 									if(ok == 1) {
 										System.out.println("\nJogada efetuada com sucesso, aguarde sua vez!");
@@ -177,8 +169,12 @@ public class UnoClient {
 							else if(posCarta >= 1 && posCarta <= jogador.obtemNumCartas(id) ) {
 								System.out.println("Se a carta for um coringa, digite a cor que deseja:");
 								System.out.println("0 - Azul;   1 - Amarelo;   2 - Verde;   3 - Vermelho;");
-								System.out.println("Se não for, digite 4");
-								char cor = scanner.readLine().charAt(0);
+								System.out.println("Se não for, digite qualquer coisa.");
+								char cor = 'x';
+								s = scanner.readLine();
+								if(!s.isEmpty()){
+									cor = s.charAt(0);
+								}
 								int ok = jogador.jogaCarta(id, posCarta-1, cor-'0');
 								if(ok == 1) {
 									System.out.println("\nJogada efetuada com sucesso, aguarde sua vez!");
@@ -215,6 +211,7 @@ public class UnoClient {
 				}
 			
 			scanner.close();
+			break;
 			}
 		} catch (Exception e) {
 			System.out.println ("UnoClient failed.");
@@ -244,5 +241,30 @@ public class UnoClient {
 	        }
 	    }
 	    return true;
+	}
+	
+	public static void printaMesa(int numCartasBaralho, int numCartasOponente, String cartaMesa, int corAtiva, String mao) {
+		System.out.println("Número de cartas no baralho: " + numCartasBaralho);
+		System.out.println("Número de cartas na mão do oponente: " + numCartasOponente);
+		System.out.println("\nCarta na mesa: " + cartaMesa);
+		switch(corAtiva) {
+			case 0:
+				System.out.println("Cor ativa na mesa: Azul");
+				break;
+				 
+			case 1:
+				System.out.println("Cor ativa na mesa: Amarelo");
+				break;
+				
+			case 2:
+				System.out.println("Cor ativa na mesa: Verde");
+				break;
+				
+			case 3:
+				System.out.println("Cor ativa na mesa: Vermelho");
+				break;
+		}
+		System.out.println("\nSua mão:");
+		System.out.println(mao);
 	}
 }

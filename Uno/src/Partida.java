@@ -280,6 +280,7 @@ public class Partida {
 	}
 	
 	public void finalizarPartida() {
+		//percorre a mão do jogador 1 e soma os pontos para o jogador 2
 		for(int i = 0; i < J1.getMao().size(); i++) {
 			Carta aux = J1.getMao().get(i);
 			if(aux != null) {
@@ -292,6 +293,7 @@ public class Partida {
 				else pontuacaoJ2 += aux.getNumeracao()[0] - '0';
 			}
 		}
+		//percorre a mão jogador 2 e soma os pontos para o jogador 1
 		for(int i = 0; i < J2.getMao().size(); i++) {
 			Carta aux = J2.getMao().get(i);
 			if(aux != null) {
@@ -305,7 +307,9 @@ public class Partida {
 			}
 		}
 		
+		//se a pontuação for igual, é empate
 		if(pontuacaoJ2 == pontuacaoJ1) empate = true;
+		//se não, o jogador com maior pontuação é o vencedor
 		else if(pontuacaoJ1 > pontuacaoJ2) vencedor = J1;
 		else vencedor = J2;
 	}

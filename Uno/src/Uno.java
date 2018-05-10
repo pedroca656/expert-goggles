@@ -404,6 +404,7 @@ public class Uno extends UnicastRemoteObject implements JogadorInterface {
 		
 		if(Dict.containsKey(Id)) {
 			Partida p = Dict.get(Id);
+			boolean trocaVez = true;
 			if(p == null) return -2;
 			if(p.getJ1().getId() == Id) { //verifica se o jogador é o J1 ou o J2
 				if(p.isVezJ1()) { //verifica se é a vez do J1
@@ -441,51 +442,53 @@ public class Uno extends UnicastRemoteObject implements JogadorInterface {
 							p.getDescartes().push(c);
 							p.setCorAtual(c.getCor());
 							p.setNumeroAtual(c.getNumeracao());
-							p.setVezJ1(!p.isVezJ1());
 							p.setJogadorJaComprou(false);
 							
 							//agora a verificacao de cartas especiais
 							//coringa
 							if(c.getCor()[0] == '*') {
 								//+4
-								if(c.getNumeracao()[1] == 4) {
+								if(c.getNumeracao()[1] == '4') {
 									p.J2Compra4();
-									p.setVezJ1(!p.isVezJ1());
+									trocaVez = false;
 								}
 								switch(Cor) {
 									case 0:
 										p.setCorAtual(new char[] {'A', 'z'});
 										p.setPrimeiraCartaCoringa(false);
-										return 1;
+										break;
 										
 									case 1:
 										p.setCorAtual(new char[] {'A', 'm'});
 										p.setPrimeiraCartaCoringa(false);
-										return 1;
+										break;
 											
 									case 2:
 										p.setCorAtual(new char[] {'V', 'd'});
 										p.setPrimeiraCartaCoringa(false);
-										return 1;
+										break;
 											
 									case 3:
 										p.setCorAtual(new char[] {'V', 'm'});
 										p.setPrimeiraCartaCoringa(false);
-										return 1;
+										break;
 								}
 								
 							}
 							//+2
 							else if(c.getNumeracao()[0] == '+') {
-								p.J2Compra2();
-								p.setVezJ1(!p.isVezJ1());
+								p.J2Compra2();								
+								trocaVez = false;
 							}
 							//pula vez ou inverte
 							else if(c.getNumeracao()[0] == 'P' || c.getNumeracao()[0] == 'I') {
-								p.setVezJ1(!p.isVezJ1());
+								trocaVez = false;
 							}
 							p.setPrimeiraCartaCoringa(false);
 							if(p.getJ1().getMao().size() == 0) p.finalizarPartida();
+							
+							if(trocaVez) p.setVezJ1(!p.isVezJ1());
+							
 							return 1;
 						}
 						
@@ -508,7 +511,9 @@ public class Uno extends UnicastRemoteObject implements JogadorInterface {
 								if(c.getNumeracao()[1] == '4') {
 									for(int i = 0; i < p.getJ2().getMao().size(); i++) {
 										Carta aux = p.getJ2().getMao().get(i);
-										if(aux.getNumeracao()[1] == '4') continue;
+										if(aux.getNumeracao().length > 1) {
+											if(aux.getNumeracao()[1] == '4') continue;
+										}
 										if(p.verificaCartaJogavel(aux)) return 0;
 									}
 								}
@@ -517,51 +522,53 @@ public class Uno extends UnicastRemoteObject implements JogadorInterface {
 							p.getDescartes().push(c);
 							p.setCorAtual(c.getCor());
 							p.setNumeroAtual(c.getNumeracao());
-							p.setVezJ1(!p.isVezJ1());
 							p.setJogadorJaComprou(false);
 							
 							//agora a verificacao de cartas especiais
 							//coringa
 							if(c.getCor()[0] == '*') {
 								//+4
-								if(c.getNumeracao()[1] == 4) {
+								if(c.getNumeracao()[1] == '4') {
 									p.J1Compra4();
-									p.setVezJ1(!p.isVezJ1());
+									trocaVez = false;
 								}
 								switch(Cor) {
 									case 0:
 										p.setCorAtual(new char[] {'A', 'z'});
 										p.setPrimeiraCartaCoringa(false);
-										return 1;
+										break;
 										
 									case 1:
 										p.setCorAtual(new char[] {'A', 'm'});
 										p.setPrimeiraCartaCoringa(false);
-										return 1;
+										break;
 											
 									case 2:
 										p.setCorAtual(new char[] {'V', 'd'});
 										p.setPrimeiraCartaCoringa(false);
-										return 1;
+										break;
 											
 									case 3:
 										p.setCorAtual(new char[] {'V', 'm'});
 										p.setPrimeiraCartaCoringa(false);
-										return 1;
+										break;
 								}
 								
 							}
 							//+2
 							else if(c.getNumeracao()[0] == '+') {
-								p.J1Compra2();
-								p.setVezJ1(!p.isVezJ1());
+								p.J1Compra2();								
+								trocaVez = false;
 							}
 							//pula vez
 							else if(c.getNumeracao()[0] == 'P' || c.getNumeracao()[0] == 'I') {
-								p.setVezJ1(!p.isVezJ1());
+								trocaVez = false;
 							}
 							p.setPrimeiraCartaCoringa(false);
 							if(p.getJ1().getMao().size() == 0) p.finalizarPartida();
+							
+							if(trocaVez) p.setVezJ1(!p.isVezJ1());
+							
 							return 1;
 						}
 					}
